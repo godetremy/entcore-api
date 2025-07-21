@@ -33,4 +33,18 @@ enum NeoScope {
 	Support = 'support',
 }
 
+interface NeoAuthCredentials {
+	/** Type of the token, usually "Bearer" */
+	token_type?: string;
+	/** Bearer token */
+	access_token?: string;
+	/** Refresh token to get a new access token */
+	refresh_token?: string;
+	/** Date until the access token expires */
+	expires_at: number;
+	/** Scopes granted to the access token */
+	scope: Array<NeoScope>;
+}
+
+export type { NeoAuthCredentials };
 export { NeoScope };

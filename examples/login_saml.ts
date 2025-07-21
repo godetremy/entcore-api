@@ -1,10 +1,10 @@
-import {InitNeoInstance} from "~/api/instance";
 import * as dotenv from "dotenv";
-import {loginSAML, NeoLoginResponse} from "../src";
+import {NeoClient} from "~/structures/Client";
+import * as process from "node:process";
 
 void async function main () {
 	// Load environment variables from .env file
-	dotenv.config();
+	dotenv.config({quiet: true});
 
 	// Validate required environment variables
 	if (!process.env.NEO_URL)
@@ -12,16 +12,11 @@ void async function main () {
 	if (!process.env.NEO_SAML_ASSERTION)
 		throw new Error("NEO_SAML_ASSERTION environment variable is not set.");
 
-	// Initialize Neo instance with the base URL
-	const instance = InitNeoInstance(process.env.NEO_URL);
+	const instance = new NeoClient(process.env.NEO_URL);
 
-	// Start the login process using SAML assertion
-	const token: NeoLoginResponse = await loginSAML(instance, process.env.NEO_SAML_ASSERTION);
+	// Perform SAML login using the provided assertion
+	const token = await instance.loginSAML(process.env.NEO_SAML_ASSERTION);
 
-	console.log("Login successful! Token details:");
-	console.log(`Token Type: ${token.token_type}`);
-	console.log(`Access Token: ${token.access_token}`);
-	console.log(`Refresh Token: ${token.refresh_token}`);
-	console.log(`Expires In: ${token.expires_in} seconds`);
-	console.log(`Scopes: ${token.scope.join(", ")}`);
+	console.log("SAML Login Successful:", token);
+	process.exit(0);
 }();

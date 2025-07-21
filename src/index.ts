@@ -1,2 +1,1 @@
-export * from "./api";
-export * from "./models";
+export * from "./structures/Client";
