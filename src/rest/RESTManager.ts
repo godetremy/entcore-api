@@ -29,7 +29,7 @@ export class NeoRestManager {
 
 		const response = await fetch(url, {
 			method,
-			body: body ? new URLSearchParams(body) : undefined,
+			body: body ? new URLSearchParams(body as Record<string, string>) : undefined,
 			headers: {
 				"Content-Type": "application/x-www-form-urlencoded",
 				...headers,
