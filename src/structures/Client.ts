@@ -1,6 +1,6 @@
 import {NeoAuthCredentials} from "~/types/authentication";
 import {NeoRestManager} from "~/rest/RESTManager";
-import {_login_saml} from "~/routes/Auth";
+import {_login_saml, _refresh_token} from "~/routes/Auth";
 
 export class NeoClient {
 	private restManager: NeoRestManager;
@@ -17,6 +17,14 @@ export class NeoClient {
 
 	public async loginSAML(assertion: string): Promise<NeoAuthCredentials> {
 		const token = await _login_saml(this.restManager, assertion);
+		this.credentials = token;
+		return token;
+	}
+
+	public async refreshToken(refresh_token?: string): Promise<NeoAuthCredentials> {
+		if (!refresh_token)
+			refresh_token = this.credentials.refresh_token;
+		const token = await _refresh_token(this.restManager, refresh_token);
 		this.credentials = token;
 		return token;
 	}
