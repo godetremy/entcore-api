@@ -32,18 +32,22 @@ export class NeoRestManager {
 			body: body ? new URLSearchParams(body as Record<string, string>) : undefined,
 			headers: {
 				"Content-Type": "application/x-www-form-urlencoded",
-				...headers,
 				"User-Agent": "@godetremy/entcore-api",
 				...MOBILE_HEADERS,
-			}
+				...headers,
+			},
+			redirect: "manual",
 		});
 
 		if (!response.ok) {
 			throw new Error(`${response.status}: ${response.statusText} (Received '${await response.text()}')`);
 		}
 
-		const responseData = await response.json();
-		return responseData as T;
+		const text = await response.text();
+
+		if (text === "")
+			return response.headers as T;
+		return JSON.parse(text) as T;
 	}
 
 	private enqueueRequest<T>(options: RequestOptions): Promise<T> {
