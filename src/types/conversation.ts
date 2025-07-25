@@ -130,6 +130,18 @@ interface NeoConversationListParameters {
 	searchWords?: string;
 }
 
+interface NeoConversationDraft {
+	to: string[];
+	cc?: string[];
+	cci?: string[];
+	subject?: string;
+	body?: string;
+}
+
+interface NeoConversationDraftId {
+	id: string;
+}
+
 export type {
 	NeoConversationAttachment,
 	NeoConversationFolder,
@@ -143,7 +155,9 @@ export type {
 	NeoConversationSignaturePreferences,
 	NeoConversationUser,
 	NeoConversationVisible,
-	NeoConversationListParameters
+	NeoConversationListParameters,
+	NeoConversationDraft,
+	NeoConversationDraftId
 }
 export {
 	NeoConversationSystemFolder,

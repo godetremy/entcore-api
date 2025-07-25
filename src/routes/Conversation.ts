@@ -1,13 +1,19 @@
 import {NeoRestManager} from "~/rest/RESTManager";
 import {NeoAuthCredentials} from "~/types/authentication";
 import {
+	NeoConversationDraft, NeoConversationDraftId,
 	NeoConversationFolder,
 	NeoConversationListParameters,
 	NeoConversationMessageMetadata,
 	NeoConversationSystemFolder
 } from "~/types/conversation";
 import {TOKEN_ERROR} from "~/const/error";
-import {CONVERSATION_FOLDER_MESSAGES, CONVERSATION_FOLDERS, CONVERSATION_LIST_FOLDER} from "~/rest/endpoints";
+import {
+	CONVERSATION_CREATE_DRAFT,
+	CONVERSATION_FOLDER_MESSAGES,
+	CONVERSATION_FOLDERS,
+	CONVERSATION_UPDATE_DRAFT
+} from "~/rest/endpoints";
 
 export class NeoConversation {
 	private restManager: NeoRestManager;
@@ -37,6 +43,28 @@ export class NeoConversation {
 		this.checkToken();
 		return this.restManager.get<NeoConversationFolder[]>(
 			CONVERSATION_FOLDERS(),
+			{
+				Authorization: `Bearer ${this.credentials.access_token}`
+			}
+		);
+	}
+
+	public async createDraft(draft: NeoConversationDraft): Promise<NeoConversationDraftId> {
+		this.checkToken();
+		return this.restManager.post<NeoConversationDraftId>(
+			CONVERSATION_CREATE_DRAFT(),
+			draft,
+			{
+				Authorization: `Bearer ${this.credentials.access_token}`
+			}
+		);
+	}
+
+	public async updateDraft(draftId: string, draft: NeoConversationDraft): Promise<void> {
+		this.checkToken();
+		await this.restManager.put<{}>(
+			CONVERSATION_UPDATE_DRAFT(draftId),
+			draft,
 			{
 				Authorization: `Bearer ${this.credentials.access_token}`
 			}

@@ -31,5 +31,7 @@ void async function main () {
 		});
 		console.log(`✉️ ${to_content} - ${message.subject}`);
 	});
+
+
 	process.exit(0);
 }();

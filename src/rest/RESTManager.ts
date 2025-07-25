@@ -29,9 +29,9 @@ export class NeoRestManager {
 
 		const response = await fetch(url, {
 			method,
-			body: body ? new URLSearchParams(body as Record<string, string>) : undefined,
+			body: body ? (path?.startsWith('auth/') ? new URLSearchParams(body as Record<string, string>) : JSON.stringify(body)) : undefined,
 			headers: {
-				"Content-Type": "application/x-www-form-urlencoded",
+				"Content-Type": `application/${path?.startsWith('auth/') ? "x-www-form-urlencoded" : "json"}`,
 				"User-Agent": "@godetremy/entcore-api",
 				...MOBILE_HEADERS,
 				...headers,
@@ -73,31 +73,29 @@ export class NeoRestManager {
 		});
 	}
 
-	async post<T>(path: string, body: any, options?: RequestOptions): Promise<T> {
+	async post<T>(path: string, body: any, headers?: Record<string, string>): Promise<T> {
 		return this.enqueueRequest<T>({
 			method: "POST",
 			path,
 			body,
-			headers: options?.headers
+			headers: headers
 		});
 	}
 
-	async put<T>(path: string, body: any, options?: RequestOptions): Promise<T> {
+	async put<T>(path: string, body: any, headers?: Record<string, string>): Promise<T> {
 		return this.enqueueRequest<T>({
 			method: "PUT",
 			path,
 			body,
-			headers: options?.headers
+			headers: headers
 		});
 	}
 
-	async delete<T>(path: string, params?: Record<string, any>, options?: RequestOptions): Promise<T> {
-		const urlParams = new URLSearchParams(params).toString();
-		const urlPath = urlParams ? `${path}?${urlParams}` : path;
+	async delete<T>(path: string, headers?: Record<string, string>): Promise<T> {
 		return this.enqueueRequest<T>({
 			method: "DELETE",
-			path: urlPath,
-			headers: options?.headers
+			path: path,
+			headers: headers
 		});
 	}
 }

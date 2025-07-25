@@ -33,5 +33,22 @@ void async function main () {
 		console.log(`[${message.from?.displayName || "Unknown"}] ${message.subject}`);
 	});
 
+	// Create a draft message
+	console.log("\nCreating a draft message...");
+	const draft = await instance.conversation.createDraft({
+		subject: "[ENTCORE-API] Test Draft",
+		to: ["unknown"],
+		body: "Currently, this draft as not been updated.",
+	});
+	console.log(`Draft created with ID: ${draft.id}`);
+
+	// Update the draft message
+	console.log("\nUpdating the draft message...");
+	await instance.conversation.updateDraft(draft.id, {
+		to: ["unknown"],
+		body: "This draft has been updated.",
+	});
+	console.log("Draft updated successfully.");
+
 	process.exit(0);
 }();
