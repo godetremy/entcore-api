@@ -17,7 +17,7 @@ import {
 	CONVERSATION_FOLDER_MESSAGES,
 	CONVERSATION_FOLDERS, CONVERSATION_FOLDERS_DELETE, CONVERSATION_MESSAGE,
 	CONVERSATION_MESSAGE_ADD_ATTACHMENT,
-	CONVERSATION_MESSAGE_ATTACHMENT, CONVERSATION_MOVE_FOLDER, CONVERSATION_MOVE_ROOT,
+	CONVERSATION_MESSAGE_ATTACHMENT, CONVERSATION_MOVE_FOLDER, CONVERSATION_MOVE_ROOT, CONVERSATION_RESTORE,
 	CONVERSATION_SEND_MESSAGE, CONVERSATION_TOGGLE_UNREAD,
 	CONVERSATION_TRASH,
 	CONVERSATION_UPDATE_DRAFT
@@ -156,6 +156,19 @@ export class NeoConversation {
 		this.checkToken();
 		await this.restManager.put<{}>(
 			CONVERSATION_TRASH(),
+			{id: messageId},
+			{
+				Authorization: `Bearer ${this.credentials.access_token}`
+			}
+		)
+	}
+
+	public async restoreMessage(messageId: string | string[]): Promise<void> {
+		if (!Array.isArray(messageId))
+			messageId = [messageId];
+		this.checkToken();
+		await this.restManager.put<{}>(
+			CONVERSATION_RESTORE(),
 			{id: messageId},
 			{
 				Authorization: `Bearer ${this.credentials.access_token}`

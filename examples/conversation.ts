@@ -158,6 +158,16 @@ void async function main () {
 	await instance.conversation.moveMessageToTrash(newDraft.id);
 	console.log("Draft message moved to trash successfully.");
 
+	// Restore the draft message from the trash folder
+	console.log("\nRestoring the draft message from the trash folder...");
+	await instance.conversation.restoreMessage(newDraft.id);
+	console.log("Draft message restored successfully.");
+
+	// Move the restored draft message to the trash folder again
+	console.log("\nMoving the restored draft message to the trash folder again...");
+	await instance.conversation.moveMessageToTrash(newDraft.id);
+	console.log("Draft message moved to trash successfully.");
+
 	// Check the trash folder
 	console.log("\nChecking the trash folder...");
 	const trashMessages = await instance.conversation.listFolder(NeoConversationSystemFolder.TRASH);
