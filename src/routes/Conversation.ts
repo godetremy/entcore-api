@@ -7,7 +7,7 @@ import {
 	NeoConversationSystemFolder
 } from "~/types/conversation";
 import {TOKEN_ERROR} from "~/const/error";
-import {CONVERSATION_FOLDERS, CONVERSATION_LIST_FOLDER} from "~/rest/endpoints";
+import {CONVERSATION_FOLDER_MESSAGES, CONVERSATION_FOLDERS, CONVERSATION_LIST_FOLDER} from "~/rest/endpoints";
 
 export class NeoConversation {
 	private restManager: NeoRestManager;
@@ -26,7 +26,7 @@ export class NeoConversation {
 	public async listFolder(folder: string | NeoConversationSystemFolder, params: NeoConversationListParameters = {}): Promise<NeoConversationMessageMetadata[]> {
 		this.checkToken();
 		return this.restManager.get<NeoConversationMessageMetadata[]>(
-			CONVERSATION_LIST_FOLDER(folder, params),
+			CONVERSATION_FOLDER_MESSAGES(folder, params),
 			{
 				Authorization: `Bearer ${this.credentials.access_token}`
 			}

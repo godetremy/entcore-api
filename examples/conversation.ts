@@ -1,6 +1,7 @@
 import * as dotenv from "dotenv";
 import {NeoClient} from "~/structures/Client";
 import * as process from "node:process";
+import {NeoConversationSystemFolder} from "../src/types/conversation";
 
 void async function main () {
 	// Load environment variables from .env file
@@ -25,6 +26,12 @@ void async function main () {
 		console.log(`(${folder.nbMessages}) ${folder.name}`);
 	});
 
+	// List Messages in inbox
+	const messages = await instance.conversation.listFolder(NeoConversationSystemFolder.INBOX, {page_size: 5});
+	console.log("\nInbox Messages:");
+	messages.forEach(message => {
+		console.log(`[${message.from?.displayName || "Unknown"}] ${message.subject}`);
+	});
 
 	process.exit(0);
 }();

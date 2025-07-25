@@ -12,14 +12,11 @@ enum NeoConversationVisibility {
 	BROADCAST_GROUP = 'BroadcastGroup',
 }
 
-type NeoConversationDisplayName = [
-	/** User ID or Group ID */
-	string,
-	/** Display name */
-	string,
-	/** Unknown property - Help to contribute on GitHub :) */
-	boolean
-]
+enum NeoConversationMessageState {
+	DRAFT = 'DRAFT',
+	SENT = 'SENT',
+	RECALL = 'RECALL',
+}
 
 interface NeoConversationAttachment {
 	id: string;
@@ -53,15 +50,11 @@ interface NeoConversationMessageInformation {
 	id: string;
 	date?: number;
 	subject: string;
-	from?: string;
-	to: string[];
-	toName?: string[];
-	cc: string[];
-	ccName?: string[];
-	cci?: string[];
-	cciName?: string[];
-	displayNames: NeoConversationDisplayName[];
-	state?: 'DRAFT' | 'SENT' | 'RECALL';
+	from?: NeoConversationUser;
+	to: NeoConversationRecipients;
+	cc: NeoConversationRecipients;
+	cci?: NeoConversationRecipients;
+	state?: NeoConversationMessageState;
 	unread?: boolean;
 	trashed?: boolean;
 	response?: boolean;
@@ -150,10 +143,10 @@ export type {
 	NeoConversationSignaturePreferences,
 	NeoConversationUser,
 	NeoConversationVisible,
-	NeoConversationDisplayName,
 	NeoConversationListParameters
 }
 export {
 	NeoConversationSystemFolder,
-	NeoConversationVisibility
+	NeoConversationVisibility,
+	NeoConversationMessageState
 }
