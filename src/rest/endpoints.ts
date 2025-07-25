@@ -13,7 +13,7 @@ export const CONVERSATION_MOVE_FOLDER = (folderId: string) => `${CONVERSATION_BA
 export const CONVERSATION_MOVE_ROOT = () => `${CONVERSATION_BASE_URL()}/move/root`;
 export const CONVERSATION_FOLDERS_DELETE = (id: string) => `${CONVERSATION_BASE_URL()}/api/folders/${id}`;
 export const CONVERSATION_FOLDER_MESSAGES = (id: string, param: NeoConversationListParameters) => `${CONVERSATION_BASE_URL()}/api/folders/${encodeURIComponent(id)}/messages${generateParametersConversationList(param)}`;
-export const CONVERSATION_CREATE_DRAFT = () => `${CONVERSATION_BASE_URL()}/draft`;
+export const CONVERSATION_CREATE_DRAFT = (replyToId?: string) => `${CONVERSATION_BASE_URL()}/draft${replyToId ? `?In-Reply-To=${replyToId}` : ""}`;
 export const CONVERSATION_UPDATE_DRAFT = (id: string) => `${CONVERSATION_BASE_URL()}/draft/${id}`;
 export const CONVERSATION_SEND_MESSAGE = (draftId?: string) => `${CONVERSATION_BASE_URL()}/send${draftId ? `?id=${draftId}` : ""}`;
 export const CONVERSATION_TRASH = () => `${CONVERSATION_BASE_URL()}/trash`;

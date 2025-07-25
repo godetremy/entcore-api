@@ -117,10 +117,10 @@ export class NeoConversation {
 		);
 	}
 
-	public async createDraft(draft: NeoConversationMessageContent): Promise<NeoConversationDraftId> {
+	public async createDraft(draft: NeoConversationMessageContent, replyToId?: string): Promise<NeoConversationDraftId> {
 		this.checkToken();
 		return this.restManager.post<NeoConversationDraftId>(
-			CONVERSATION_CREATE_DRAFT(),
+			CONVERSATION_CREATE_DRAFT(replyToId),
 			draft,
 			{
 				Authorization: `Bearer ${this.credentials.access_token}`
