@@ -4,7 +4,7 @@ import {
 	NeoConversationAttachmentId,
 	NeoConversationDraftId,
 	NeoConversationFolder,
-	NeoConversationListParameters,
+	NeoConversationListParameters, NeoConversationMessage,
 	NeoConversationMessageContent,
 	NeoConversationMessageMetadata, NeoConversationSentMessage,
 	NeoConversationSystemFolder
@@ -15,7 +15,7 @@ import {
 	CONVERSATION_DELETE,
 	CONVERSATION_EMPTY_TRASH,
 	CONVERSATION_FOLDER_MESSAGES,
-	CONVERSATION_FOLDERS,
+	CONVERSATION_FOLDERS, CONVERSATION_MESSAGE,
 	CONVERSATION_MESSAGE_ADD_ATTACHMENT,
 	CONVERSATION_MESSAGE_ATTACHMENT,
 	CONVERSATION_SEND_MESSAGE,
@@ -41,6 +41,16 @@ export class NeoConversation {
 		this.checkToken();
 		return this.restManager.get<NeoConversationMessageMetadata[]>(
 			CONVERSATION_FOLDER_MESSAGES(folder, params),
+			{
+				Authorization: `Bearer ${this.credentials.access_token}`
+			}
+		);
+	}
+
+	public async getMessage(messageId: string): Promise<NeoConversationMessage> {
+		this.checkToken();
+		return this.restManager.get<NeoConversationMessage>(
+			CONVERSATION_MESSAGE(messageId),
 			{
 				Authorization: `Bearer ${this.credentials.access_token}`
 			}

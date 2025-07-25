@@ -40,6 +40,18 @@ void async function main () {
 		console.log(`[${message.from?.displayName || "Unknown"}] ${message.subject}`);
 	});
 
+	// Read a specific message
+	if (messages.length > 0) {
+		console.log("\nReading the first message in the inbox...");
+		const messageId = messages[0].id;
+		const message = await instance.conversation.getMessage(messageId);
+		console.log(`Subject: ${message.subject}`);
+		console.log(`From: ${message.from?.displayName || "Unknown"}`);
+		console.log(`Body: ${message.body}`);
+	} else {
+		console.log("\nNo messages found in the inbox.");
+	}
+
 	// Create a draft message
 	console.log("\nCreating a draft message...");
 	const draft = await instance.conversation.createDraft({
