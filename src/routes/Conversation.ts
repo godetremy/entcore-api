@@ -1,12 +1,13 @@
 import {NeoRestManager} from "~/rest/RESTManager";
 import {NeoAuthCredentials} from "~/types/authentication";
 import {
+	NeoConversationFolder,
 	NeoConversationListParameters,
 	NeoConversationMessageMetadata,
 	NeoConversationSystemFolder
 } from "~/types/conversation";
 import {TOKEN_ERROR} from "~/const/error";
-import {CONVERSATION_LIST_FOLDER} from "~/rest/endpoints";
+import {CONVERSATION_FOLDERS, CONVERSATION_LIST_FOLDER} from "~/rest/endpoints";
 
 export class NeoConversation {
 	private restManager: NeoRestManager;
@@ -26,6 +27,16 @@ export class NeoConversation {
 		this.checkToken();
 		return this.restManager.get<NeoConversationMessageMetadata[]>(
 			CONVERSATION_LIST_FOLDER(folder, params),
+			{
+				Authorization: `Bearer ${this.credentials.access_token}`
+			}
+		);
+	}
+
+	public async getUserFolders(): Promise<NeoConversationFolder[]> {
+		this.checkToken();
+		return this.restManager.get<NeoConversationFolder[]>(
+			CONVERSATION_FOLDERS(),
 			{
 				Authorization: `Bearer ${this.credentials.access_token}`
 			}
