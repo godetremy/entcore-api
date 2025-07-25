@@ -4,7 +4,13 @@ import * as process from "node:process";
 
 void async function main () {
 	// Load environment variables from .env file
-	dotenv.config({quiet: true});
+	const result = dotenv.config({quiet: true});
+
+	if (result.error)
+	{
+		console.error("Error loading .env file:", result.error);
+		process.exit(1);
+	}
 
 	// Validate required environment variables
 	if (!process.env.NEO_URL)
@@ -15,7 +21,7 @@ void async function main () {
 	const instance = new NeoClient(process.env.NEO_URL);
 
 	// Perform SAML login using the provided assertion
-	const token = await instance.loginSAML(process.env.NEO_SAML_ASSERTION);
+	const token = await instance.auth.loginSAML(process.env.NEO_SAML_ASSERTION);
 
 	console.log("SAML Login Successful:", token);
 	process.exit(0);

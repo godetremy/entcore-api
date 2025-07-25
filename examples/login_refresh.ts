@@ -15,7 +15,7 @@ void async function main () {
 	const instance = new NeoClient(process.env.NEO_URL);
 
 	// Perform SAML login using the provided assertion
-	const token = await instance.refreshToken(process.env.NEO_REFRESH_TOKEN);
+	const token = await instance.auth.refreshToken(process.env.NEO_REFRESH_TOKEN);
 
 	console.log("Refresh Successful:", token);
 	process.exit(0);

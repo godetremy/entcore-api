@@ -15,12 +15,12 @@ void async function main () {
 	const instance = new NeoClient(process.env.NEO_URL);
 
 	// Perform SAML login using the provided assertion
-	await instance.refreshToken(process.env.NEO_REFRESH_TOKEN);
+	await instance.auth.refreshToken(process.env.NEO_REFRESH_TOKEN);
 
 	console.log("Auth Successful !");
 
 	// Fetch Pronote SSO links
-	const pronoteSSO = await instance.getPronoteSSO();
+	const pronoteSSO = await instance.sso.getPronoteInstanceLinked();
 	console.log("Pronote SSO Links:");
 	pronoteSSO.forEach(sso => {
 		console.log(`${sso.structureId}- ${sso.address}: ${sso.xmlResponse.slice(0, 100)}...`);
@@ -29,7 +29,7 @@ void async function main () {
 	if (pronoteSSO.length > 0)
 	{
 		console.log(`Generating authorized URL for the ${pronoteSSO[0].address} Pronote SSO link...`);
-		const authorizedUrl = await instance.generatePronoteAuthorizedUrl(pronoteSSO[0]);
+		const authorizedUrl = await instance.sso.generatePronoteAuthorizedUrl(pronoteSSO[0]);
 		console.log(`Authorized URL: ${authorizedUrl}`);
 	}
 	process.exit(0);
