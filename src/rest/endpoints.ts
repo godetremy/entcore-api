@@ -8,6 +8,10 @@ export const SSO_PRONOTE = () => "sso/pronote";
 
 export const CONVERSATION_BASE_URL = () => "conversation";
 export const CONVERSATION_FOLDERS = () => `${CONVERSATION_BASE_URL()}/api/folders`;
+export const CONVERSATION_FOLDER = () => `${CONVERSATION_BASE_URL()}/folder`;
+export const CONVERSATION_MOVE_FOLDER = (folderId: string) => `${CONVERSATION_BASE_URL()}/move/userfolder/${folderId}`;
+export const CONVERSATION_MOVE_ROOT = () => `${CONVERSATION_BASE_URL()}/move/root`;
+export const CONVERSATION_FOLDERS_DELETE = (id: string) => `${CONVERSATION_BASE_URL()}/api/folders/${id}`;
 export const CONVERSATION_FOLDER_MESSAGES = (id: string, param: NeoConversationListParameters) => `${CONVERSATION_BASE_URL()}/api/folders/${encodeURIComponent(id)}/messages${generateParametersConversationList(param)}`;
 export const CONVERSATION_CREATE_DRAFT = () => `${CONVERSATION_BASE_URL()}/draft`;
 export const CONVERSATION_UPDATE_DRAFT = (id: string) => `${CONVERSATION_BASE_URL()}/draft/${id}`;
@@ -18,5 +22,6 @@ export const CONVERSATION_MESSAGE_ADD_ATTACHMENT = (draftId: string) => `${CONVE
 export const CONVERSATION_EMPTY_TRASH = () => `${CONVERSATION_BASE_URL()}/emptyTrash`;
 export const CONVERSATION_MESSAGE_ATTACHMENT = (messageId: string, attachmentId: string) => `${CONVERSATION_BASE_URL()}/message/${messageId}/attachment/${attachmentId}`;
 export const CONVERSATION_MESSAGE = (messageId: string) => `${CONVERSATION_BASE_URL()}/api/messages/${messageId}`;
+export const CONVERSATION_TOGGLE_UNREAD = () => `${CONVERSATION_BASE_URL()}/toggleUnread`;
 
 export const CAS_OAUTH_LOGIN = (service: string) => `cas/oauth/login?service=${encodeURIComponent(service)}`;

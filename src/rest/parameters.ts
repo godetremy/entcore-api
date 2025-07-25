@@ -9,8 +9,8 @@ export const generateParametersConversationList = (params: NeoConversationListPa
 		set.push(`page_size=${params.page_size}`);
 	if (params.unread)
 		set.push(`unread=${params.unread}`);
-	if (params.searchWords)
-		set.push(`searchWords=${encodeURIComponent(params.searchWords)}`);
+	if (params.search)
+		set.push(`search=${encodeURIComponent(params.search)}`);
 
 	return (set.length > 0 ? "?" + set.join("&") : "")
 }

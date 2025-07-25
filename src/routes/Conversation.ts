@@ -3,7 +3,7 @@ import {NeoAuthCredentials} from "~/types/authentication";
 import {
 	NeoConversationAttachmentId,
 	NeoConversationDraftId,
-	NeoConversationFolder,
+	NeoConversationFolder, NeoConversationFolderId,
 	NeoConversationListParameters, NeoConversationMessage,
 	NeoConversationMessageContent,
 	NeoConversationMessageMetadata, NeoConversationSentMessage,
@@ -13,12 +13,12 @@ import {TOKEN_ERROR} from "~/const/error";
 import {
 	CONVERSATION_CREATE_DRAFT,
 	CONVERSATION_DELETE,
-	CONVERSATION_EMPTY_TRASH,
+	CONVERSATION_EMPTY_TRASH, CONVERSATION_FOLDER,
 	CONVERSATION_FOLDER_MESSAGES,
-	CONVERSATION_FOLDERS, CONVERSATION_MESSAGE,
+	CONVERSATION_FOLDERS, CONVERSATION_FOLDERS_DELETE, CONVERSATION_MESSAGE,
 	CONVERSATION_MESSAGE_ADD_ATTACHMENT,
-	CONVERSATION_MESSAGE_ATTACHMENT,
-	CONVERSATION_SEND_MESSAGE,
+	CONVERSATION_MESSAGE_ATTACHMENT, CONVERSATION_MOVE_FOLDER, CONVERSATION_MOVE_ROOT,
+	CONVERSATION_SEND_MESSAGE, CONVERSATION_TOGGLE_UNREAD,
 	CONVERSATION_TRASH,
 	CONVERSATION_UPDATE_DRAFT
 } from "~/rest/endpoints";
@@ -61,6 +61,56 @@ export class NeoConversation {
 		this.checkToken();
 		return this.restManager.get<NeoConversationFolder[]>(
 			CONVERSATION_FOLDERS(),
+			{
+				Authorization: `Bearer ${this.credentials.access_token}`
+			}
+		);
+	}
+
+	public async createUserFolders(name: string, parentId?: string): Promise<NeoConversationFolderId> {
+		this.checkToken();
+		return this.restManager.post<NeoConversationFolderId>(
+			CONVERSATION_FOLDER(),
+			{
+				name,
+				parentId
+			},
+			{
+				Authorization: `Bearer ${this.credentials.access_token}`
+			}
+		);
+	}
+
+	public async deleteUserFolder(folderId: string): Promise<void> {
+		this.checkToken();
+		await this.restManager.delete<{}>(
+			CONVERSATION_FOLDERS_DELETE(folderId),
+			{
+				Authorization: `Bearer ${this.credentials.access_token}`
+			}
+		);
+	}
+
+	public async moveMessageToRootFolder(messageId: string | string[]): Promise<void> {
+		if (!Array.isArray(messageId))
+			messageId = [messageId];
+		this.checkToken();
+		await this.restManager.put(
+			`${CONVERSATION_MOVE_ROOT()}?id=${encodeURIComponent(messageId.join(","))}`,
+			{},
+			{
+				Authorization: `Bearer ${this.credentials.access_token}`
+			}
+		);
+	}
+
+	public async moveMessageToUserFolder(messageId: string | string[], folderId: string): Promise<void> {
+		if (!Array.isArray(messageId))
+			messageId = [messageId];
+		this.checkToken();
+		await this.restManager.put(
+			CONVERSATION_MOVE_FOLDER(folderId),
+			{id: messageId},
 			{
 				Authorization: `Bearer ${this.credentials.access_token}`
 			}
@@ -160,5 +210,31 @@ export class NeoConversation {
 				Authorization: `Bearer ${this.credentials.access_token}`
 			}
 		);
+	}
+
+	public async markAsRead(messageId: string | string[]): Promise<void> {
+		if (!Array.isArray(messageId))
+			messageId = [messageId];
+		this.checkToken();
+		await this.restManager.post<{}>(
+			CONVERSATION_TOGGLE_UNREAD(),
+			{id: messageId, unread: false},
+			{
+				Authorization: `Bearer ${this.credentials.access_token}`
+			}
+		)
+	}
+
+	public async markAsUnread(messageId: string | string[]): Promise<void> {
+		if (!Array.isArray(messageId))
+			messageId = [messageId];
+		this.checkToken();
+		await this.restManager.post<{}>(
+			CONVERSATION_TOGGLE_UNREAD(),
+			{id: messageId, unread: true},
+			{
+				Authorization: `Bearer ${this.credentials.access_token}`
+			}
+		)
 	}
 }

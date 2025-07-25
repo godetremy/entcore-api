@@ -33,6 +33,16 @@ void async function main () {
 		console.log(`(${folder.nbMessages}) ${folder.name}`);
 	});
 
+	// Create a new folder
+	console.log("\nCreating a new folder named 'entcore-api'...");
+	const newFolder = await instance.conversation.createUserFolders("entcore-api");
+	console.log("New folder created with ID:", newFolder.id);
+
+	// Create a subfolder in the new folder
+	console.log("\nCreating a subfolder named 'demo' in the 'entcore-api' folder...");
+	const subFolder = await instance.conversation.createUserFolders("demo", newFolder.id);
+	console.log("Subfolder created with ID:", subFolder.id);
+
 	// List Messages in inbox
 	const messages = await instance.conversation.listFolder(NeoConversationSystemFolder.INBOX, {page_size: 5});
 	console.log("\nInbox Messages:");
@@ -40,14 +50,39 @@ void async function main () {
 		console.log(`[${message.from?.displayName || "Unknown"}] ${message.subject}`);
 	});
 
-	// Read a specific message
 	if (messages.length > 0) {
+		// Read a specific message
 		console.log("\nReading the first message in the inbox...");
 		const messageId = messages[0].id;
 		const message = await instance.conversation.getMessage(messageId);
 		console.log(`Subject: ${message.subject}`);
 		console.log(`From: ${message.from?.displayName || "Unknown"}`);
 		console.log(`Body: ${message.body}`);
+
+		// Mark the message as read
+		console.log("\nMarking the message as unread...");
+		await instance.conversation.markAsUnread(messageId);
+		console.log("Message marked as unread successfully.");
+
+		// Mark the message as read
+		console.log("\nMarking the message as read...");
+		await instance.conversation.markAsRead(messageId);
+		console.log("Message marked as read successfully.");
+
+		// Move the message to the new folder
+		console.log("\nMoving the message to the 'entcore-api' folder...");
+		await instance.conversation.moveMessageToUserFolder(messageId, newFolder.id);
+		console.log("Message moved to 'entcore-api' folder successfully.");
+
+		// Move the message to the root folder
+		console.log("\nMoving the message to the root folder...");
+		await instance.conversation.moveMessageToRootFolder(messageId);
+		console.log("Message moved to root folder successfully.");
+
+		// Delete entcore-api folder
+		console.log("\nDeleting the 'entcore-api' folder... (API takes some time to delete, so this may take a while)");
+		await instance.conversation.deleteUserFolder(newFolder.id);
+		console.log("'entcore-api' folder deleted successfully.");
 	} else {
 		console.log("\nNo messages found in the inbox.");
 	}

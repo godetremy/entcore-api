@@ -127,7 +127,7 @@ interface NeoConversationListParameters {
 	unread?: boolean;
 	page?: number;
 	page_size?: number;
-	searchWords?: string;
+	search?: string;
 }
 
 interface NeoConversationMessageContent {
@@ -143,6 +143,10 @@ interface NeoConversationDraftId {
 }
 
 interface NeoConversationAttachmentId {
+	id: string;
+}
+
+interface NeoConversationFolderId {
 	id: string;
 }
 
@@ -162,7 +166,8 @@ export type {
 	NeoConversationListParameters,
 	NeoConversationMessageContent,
 	NeoConversationDraftId,
-	NeoConversationAttachmentId
+	NeoConversationAttachmentId,
+	NeoConversationFolderId
 }
 export {
 	NeoConversationSystemFolder,
