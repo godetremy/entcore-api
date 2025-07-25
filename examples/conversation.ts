@@ -87,6 +87,16 @@ void async function main () {
 		console.log("\nNo messages found in the inbox.");
 	}
 
+	// List available recipients
+	console.log("\nListing available recipients...");
+	const recipients = await instance.conversation.getAvailableRecipients();
+	recipients.groups.forEach(recipient => {
+		console.log(`[${recipient.profile}] ${recipient.name}`)
+	})
+	recipients.users.forEach(recipient => {
+		console.log(`[${recipient.profile}] ${recipient.displayName}`)
+	})
+
 	// Create a draft message
 	console.log("\nCreating a draft message...");
 	const draft = await instance.conversation.createDraft({

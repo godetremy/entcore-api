@@ -5,7 +5,7 @@ enum NeoConversationSystemFolder {
 	TRASH = 'trash'
 }
 
-enum NeoConversationVisibility {
+enum NeoConversationRecipientType {
 	USER = 'User',
 	GROUP = 'Group',
 	SHARE_BOOKMARK = 'ShareBookmark',
@@ -110,17 +110,30 @@ interface NeoConversationUser {
 	profile: string;
 }
 
-interface NeoConversationVisible {
+interface NeoConversationRecipientBase {
 	id: string;
-	displayName: string;
 	profile?: string;
 	nbUsers?: number;
 	structureName?: string;
 	groupType?: string;
 	usedIn: ('TO' | 'CC' | 'CCI')[];
-	type: NeoConversationVisibility;
+	type: NeoConversationRecipientType;
 	children?: { id: string; displayName: string }[];
 	relatives?: { id: string; displayName: string }[];
+}
+
+interface NeoConversationRecipient extends NeoConversationRecipientBase {
+	displayName: string;
+}
+
+interface NeoConversationRecipientGroup extends NeoConversationRecipientBase {
+	name: string;
+	groupDisplayName?: string;
+}
+
+interface NeoConversationAvailableRecipient {
+	groups: NeoConversationRecipientGroup[];
+	users: NeoConversationRecipient[];
 }
 
 interface NeoConversationListParameters {
@@ -162,15 +175,16 @@ export type {
 	NeoConversationRecipientIds,
 	NeoConversationSignaturePreferences,
 	NeoConversationUser,
-	NeoConversationVisible,
+	NeoConversationRecipient,
+	NeoConversationAvailableRecipient,
 	NeoConversationListParameters,
 	NeoConversationMessageContent,
 	NeoConversationDraftId,
 	NeoConversationAttachmentId,
-	NeoConversationFolderId
+	NeoConversationFolderId,
 }
 export {
 	NeoConversationSystemFolder,
-	NeoConversationVisibility,
+	NeoConversationRecipientType,
 	NeoConversationMessageState
 }

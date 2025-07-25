@@ -1,7 +1,7 @@
 import {NeoRestManager} from "~/rest/RESTManager";
 import {NeoAuthCredentials} from "~/types/authentication";
 import {
-	NeoConversationAttachmentId,
+	NeoConversationAttachmentId, NeoConversationAvailableRecipient,
 	NeoConversationDraftId,
 	NeoConversationFolder, NeoConversationFolderId,
 	NeoConversationListParameters, NeoConversationMessage,
@@ -20,7 +20,7 @@ import {
 	CONVERSATION_MESSAGE_ATTACHMENT, CONVERSATION_MOVE_FOLDER, CONVERSATION_MOVE_ROOT, CONVERSATION_RESTORE,
 	CONVERSATION_SEND_MESSAGE, CONVERSATION_TOGGLE_UNREAD,
 	CONVERSATION_TRASH,
-	CONVERSATION_UPDATE_DRAFT
+	CONVERSATION_UPDATE_DRAFT, CONVERSATION_VISIBLE
 } from "~/rest/endpoints";
 
 export class NeoConversation {
@@ -144,6 +144,16 @@ export class NeoConversation {
 		return this.restManager.post<NeoConversationSentMessage>(
 			CONVERSATION_SEND_MESSAGE(draftId),
 			content,
+			{
+				Authorization: `Bearer ${this.credentials.access_token}`
+			}
+		);
+	}
+
+	public async getAvailableRecipients(): Promise<NeoConversationAvailableRecipient> {
+		this.checkToken();
+		return this.restManager.get<NeoConversationAvailableRecipient>(
+			CONVERSATION_VISIBLE(),
 			{
 				Authorization: `Bearer ${this.credentials.access_token}`
 			}
