@@ -58,12 +58,22 @@ void async function main () {
 
 	// Send the draft message
 	console.log("\nSending the draft message...");
-	await instance.conversation.sendMessage({
+	const sentMessage = await instance.conversation.sendMessage({
 		to: [userInfo.userId],
 		subject: "[ENTCORE-API] Test Send",
 		body: "This draft has been sent.",
 	}, draft.id);
 	console.log("Draft sent successfully.");
+
+	// Moving the received message to the trash folder
+	console.log("\nMoving the sent message to the trash folder...");
+	await instance.conversation.moveMessageToTrash(sentMessage.id);
+	console.log("Message moved to trash successfully.");
+
+	// Delete the draft message
+	console.log("\nDeleting the message from the trash folder...");
+	await instance.conversation.deleteMessage(sentMessage.id);
+	console.log("Message deleted successfully.");
 
 	process.exit(0);
 }();
