@@ -1,8 +1,9 @@
 import {NeoRestManager} from "~/rest/RESTManager";
 import {NeoAuthCredentials, NeoScope} from "~/types/authentication";
-import {AUTH_TOKEN} from "~/rest/endpoints";
+import {AUTH_TOKEN, AUTH_USERINFO} from "~/rest/endpoints";
 import {CLIENT} from "~/const/client";
 import {TOKEN_ERROR} from "~/const/error";
+import {NeoCoreSession} from "~/types/core";
 
 export class NeoAuth {
     private restManager: NeoRestManager;
@@ -48,5 +49,15 @@ export class NeoAuth {
         );
         Object.assign(this.credentials, token);
         return token;
+    }
+
+    public async getUserInfo(): Promise<NeoCoreSession> {
+        this.checkToken();
+        return await this.restManager.get<NeoCoreSession>(
+            AUTH_USERINFO(),
+            {
+                Authorization: `Bearer ${this.credentials.access_token}`,
+            }
+        );
     }
 }

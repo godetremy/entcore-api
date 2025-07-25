@@ -2,6 +2,7 @@ import {NeoConversationListParameters} from "~/types/conversation";
 import {generateParametersConversationList} from "~/rest/parameters";
 
 export const AUTH_TOKEN = () => "auth/oauth2/token";
+export const AUTH_USERINFO = () => "auth/oauth2/userinfo";
 
 export const SSO_PRONOTE = () => "sso/pronote";
 

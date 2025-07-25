@@ -16,12 +16,18 @@ void async function main () {
 	const instance = new NeoClient(process.env.NEO_URL);
 
 	// Perform Login
+	console.log("Logging in with refresh token...");
 	await instance.auth.refreshToken(process.env.NEO_REFRESH_TOKEN);
-	console.log("Auth Successful !");
+	console.log("Logged in Successful !");
+
+	// Fetch user info
+	console.log("\nFetching user info...");
+	const userInfo = await instance.auth.getUserInfo();
+	console.log("Hello, " + userInfo.username + "!");
 
 	// List User Folders
 	const folders = await instance.conversation.getUserFolders();
-	console.log("User Folders:");
+	console.log("\nUser Folders:");
 	folders.forEach(folder => {
 		console.log(`(${folder.nbMessages}) ${folder.name}`);
 	});

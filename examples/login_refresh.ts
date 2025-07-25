@@ -18,5 +18,10 @@ void async function main () {
 	const token = await instance.auth.refreshToken(process.env.NEO_REFRESH_TOKEN);
 
 	console.log("Refresh Successful:", token);
+
+	// Fetch user info
+	const userInfo = await instance.auth.getUserInfo();
+	console.log("User Info:", userInfo);
+
 	process.exit(0);
 }();
