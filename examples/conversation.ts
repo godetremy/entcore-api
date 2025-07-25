@@ -96,5 +96,26 @@ void async function main () {
 	const attachment = await instance.conversation.addAttachmentToDraft(newDraft.id, blob, "upload_file.txt");
 	console.log("Attachment added successfully with ID:", attachment.id);
 
+	// Move the draft message to the trash folder
+	console.log("\nMoving the draft message to the trash folder...");
+	await instance.conversation.moveMessageToTrash(newDraft.id);
+	console.log("Draft message moved to trash successfully.");
+
+	// Check the trash folder
+	console.log("\nChecking the trash folder...");
+	const trashMessages = await instance.conversation.listFolder(NeoConversationSystemFolder.TRASH);
+	console.log("Trash Messages:");
+	trashMessages.forEach(message => {
+		console.log(`[${message.from?.displayName || "Unknown"}] ${message.subject}`);
+	});
+
+	// Empty the trash folder
+	if (trashMessages.length == 1) {
+		console.log("\nEmptying the trash folder...");
+		await instance.conversation.emptyTrash();
+		console.log("Trash folder emptied successfully.");
+	} else {
+		console.log("\n[WARNING] There are multiple messages in the trash folder, skipping emptying to avoid error.");
+	}
 	process.exit(0);
 }();

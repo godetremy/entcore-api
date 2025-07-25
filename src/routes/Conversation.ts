@@ -11,7 +11,7 @@ import {
 } from "~/types/conversation";
 import {TOKEN_ERROR} from "~/const/error";
 import {
-	CONVERSATION_CREATE_DRAFT, CONVERSATION_DELETE,
+	CONVERSATION_CREATE_DRAFT, CONVERSATION_DELETE, CONVERSATION_EMPTY_TRASH,
 	CONVERSATION_FOLDER_MESSAGES,
 	CONVERSATION_FOLDERS, CONVERSATION_MESSAGE_ATTACHMENT, CONVERSATION_SEND_MESSAGE, CONVERSATION_TRASH,
 	CONVERSATION_UPDATE_DRAFT
@@ -119,6 +119,16 @@ export class NeoConversation {
 				"Authorization": `Bearer ${this.credentials.access_token}`
 			},
 			filename
+		);
+	}
+
+	public async emptyTrash(): Promise<void> {
+		this.checkToken();
+		await this.restManager.delete<{}>(
+			CONVERSATION_EMPTY_TRASH(),
+			{
+				Authorization: `Bearer ${this.credentials.access_token}`
+			}
 		);
 	}
 }
