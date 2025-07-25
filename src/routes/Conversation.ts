@@ -5,14 +5,14 @@ import {
 	NeoConversationFolder,
 	NeoConversationListParameters,
 	NeoConversationMessageContent,
-	NeoConversationMessageMetadata,
+	NeoConversationMessageMetadata, NeoConversationSentMessage,
 	NeoConversationSystemFolder
 } from "~/types/conversation";
 import {TOKEN_ERROR} from "~/const/error";
 import {
 	CONVERSATION_CREATE_DRAFT,
 	CONVERSATION_FOLDER_MESSAGES,
-	CONVERSATION_FOLDERS,
+	CONVERSATION_FOLDERS, CONVERSATION_SEND_MESSAGE,
 	CONVERSATION_UPDATE_DRAFT
 } from "~/rest/endpoints";
 
@@ -66,6 +66,17 @@ export class NeoConversation {
 		await this.restManager.put<{}>(
 			CONVERSATION_UPDATE_DRAFT(draftId),
 			draft,
+			{
+				Authorization: `Bearer ${this.credentials.access_token}`
+			}
+		);
+	}
+
+	public async sendMessage(content: NeoConversationMessageContent, draftId?: string): Promise<NeoConversationSentMessage> {
+		this.checkToken();
+		return this.restManager.post<NeoConversationSentMessage>(
+			CONVERSATION_SEND_MESSAGE(draftId),
+			content,
 			{
 				Authorization: `Bearer ${this.credentials.access_token}`
 			}

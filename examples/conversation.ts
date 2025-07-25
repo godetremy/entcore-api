@@ -43,7 +43,7 @@ void async function main () {
 	console.log("\nCreating a draft message...");
 	const draft = await instance.conversation.createDraft({
 		subject: "[ENTCORE-API] Test Draft",
-		to: ["unknown"],
+		to: [userInfo.userId],
 		body: "Currently, this draft as not been updated.",
 	});
 	console.log(`Draft created with ID: ${draft.id}`);
@@ -51,10 +51,19 @@ void async function main () {
 	// Update the draft message
 	console.log("\nUpdating the draft message...");
 	await instance.conversation.updateDraft(draft.id, {
-		to: ["unknown"],
+		to: [userInfo.userId],
 		body: "This draft has been updated.",
 	});
 	console.log("Draft updated successfully.");
+
+	// Send the draft message
+	console.log("\nSending the draft message...");
+	await instance.conversation.sendMessage({
+		to: [userInfo.userId],
+		subject: "[ENTCORE-API] Test Send",
+		body: "This draft has been sent.",
+	}, draft.id);
+	console.log("Draft sent successfully.");
 
 	process.exit(0);
 }();
