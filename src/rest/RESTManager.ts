@@ -98,4 +98,38 @@ export class NeoRestManager {
 			headers: headers
 		});
 	}
+
+	async postFile<T>(path: string, file: File | Blob | ArrayBuffer, headers?: Record<string, string>, filename?: string): Promise<T> {
+		const url = `${this.baseURL}/${path}`;
+
+		if (file instanceof ArrayBuffer) {
+			file = new Blob([file]);
+		}
+
+		const upload_filename = filename || (file instanceof File ? file.name : "upload.bin");
+
+		const body = new FormData();
+		body.append("file", file, upload_filename);
+
+		const response = await fetch(url, {
+			method: "POST",
+			body: body,
+			headers: {
+				"User-Agent": "@godetremy/entcore-api",
+				...MOBILE_HEADERS,
+				...headers,
+			},
+			redirect: "manual",
+		});
+
+		if (!response.ok) {
+			throw new Error(`${response.status}: ${response.statusText} (Received '${await response.text()}')`);
+		}
+
+		const text = await response.text();
+
+		if (text === "")
+			return response.headers as T;
+		return JSON.parse(text) as T;
+	}
 }

@@ -142,6 +142,10 @@ interface NeoConversationDraftId {
 	id: string;
 }
 
+interface NeoConversationAttachmentId {
+	id: string;
+}
+
 export type {
 	NeoConversationAttachment,
 	NeoConversationFolder,
@@ -157,7 +161,8 @@ export type {
 	NeoConversationVisible,
 	NeoConversationListParameters,
 	NeoConversationMessageContent,
-	NeoConversationDraftId
+	NeoConversationDraftId,
+	NeoConversationAttachmentId
 }
 export {
 	NeoConversationSystemFolder,

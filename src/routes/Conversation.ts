@@ -1,6 +1,7 @@
 import {NeoRestManager} from "~/rest/RESTManager";
 import {NeoAuthCredentials} from "~/types/authentication";
 import {
+	NeoConversationAttachmentId,
 	NeoConversationDraftId,
 	NeoConversationFolder,
 	NeoConversationListParameters,
@@ -12,7 +13,7 @@ import {TOKEN_ERROR} from "~/const/error";
 import {
 	CONVERSATION_CREATE_DRAFT, CONVERSATION_DELETE,
 	CONVERSATION_FOLDER_MESSAGES,
-	CONVERSATION_FOLDERS, CONVERSATION_SEND_MESSAGE, CONVERSATION_TRASH,
+	CONVERSATION_FOLDERS, CONVERSATION_MESSAGE_ATTACHMENT, CONVERSATION_SEND_MESSAGE, CONVERSATION_TRASH,
 	CONVERSATION_UPDATE_DRAFT
 } from "~/rest/endpoints";
 
@@ -107,5 +108,17 @@ export class NeoConversation {
 				Authorization: `Bearer ${this.credentials.access_token}`
 			}
 		)
+	}
+
+	public async addAttachmentToDraft(draftId: string, file: File | Blob | ArrayBuffer, filename?: string): Promise<NeoConversationAttachmentId> {
+		this.checkToken();
+		return await this.restManager.postFile<NeoConversationAttachmentId>(
+			CONVERSATION_MESSAGE_ATTACHMENT(draftId),
+			file,
+			{
+				"Authorization": `Bearer ${this.credentials.access_token}`
+			},
+			filename
+		);
 	}
 }

@@ -2,6 +2,7 @@ import * as dotenv from "dotenv";
 import {NeoClient} from "~/structures/Client";
 import * as process from "node:process";
 import {NeoConversationSystemFolder} from "../src/types/conversation";
+import {readFile} from "node:fs/promises";
 
 void async function main () {
 	// Load environment variables from .env file
@@ -74,6 +75,26 @@ void async function main () {
 	console.log("\nDeleting the message from the trash folder...");
 	await instance.conversation.deleteMessage(sentMessage.id);
 	console.log("Message deleted successfully.");
+
+	// Create a new draft message
+	console.log("\nCreating a new draft message...");
+	const newDraft = await instance.conversation.createDraft({
+		subject: "[ENTCORE-API] Test Draft Attachment",
+		to: [userInfo.userId],
+		body: "This is draft will be sent with an attachment.",
+	});
+	console.log("Draft created successfully.");
+
+	// Upload an attachment to the draft
+	console.log("\nAdd an attachment to the draft message...");
+	// Read the file .upload_file
+	const fs = require("node:fs");
+	const filePath = "./examples/.upload_file"; // Path to the file you want to upload
+	if (!fs.existsSync(filePath)) throw new Error(`File not found: ${filePath}`);
+	const buffer = await readFile(filePath);
+	const blob = new Blob([buffer], { type: 'application/octet-stream' });
+	const attachment = await instance.conversation.addAttachmentToDraft(newDraft.id, blob, "upload_file.txt");
+	console.log("Attachment added successfully with ID:", attachment.id);
 
 	process.exit(0);
 }();
