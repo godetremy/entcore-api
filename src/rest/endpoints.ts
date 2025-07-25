@@ -14,7 +14,9 @@ export const CONVERSATION_UPDATE_DRAFT = (id: string) => `${CONVERSATION_BASE_UR
 export const CONVERSATION_SEND_MESSAGE = (draftId?: string) => `${CONVERSATION_BASE_URL()}/send${draftId ? `?id=${draftId}` : ""}`;
 export const CONVERSATION_TRASH = () => `${CONVERSATION_BASE_URL()}/trash`;
 export const CONVERSATION_DELETE = () => `${CONVERSATION_BASE_URL()}/delete`;
-export const CONVERSATION_MESSAGE_ATTACHMENT = (draftId: string) => `${CONVERSATION_BASE_URL()}/message/${draftId}/attachment`;
+export const CONVERSATION_MESSAGE_ADD_ATTACHMENT = (draftId: string) => `${CONVERSATION_BASE_URL()}/message/${draftId}/attachment`;
 export const CONVERSATION_EMPTY_TRASH = () => `${CONVERSATION_BASE_URL()}/emptyTrash`;
+export const CONVERSATION_MESSAGE_ATTACHMENT = (messageId: string, attachmentId: string) => `${CONVERSATION_BASE_URL()}/message/${messageId}/attachment/${attachmentId}`;
+
 
 export const CAS_OAUTH_LOGIN = (service: string) => `cas/oauth/login?service=${encodeURIComponent(service)}`;

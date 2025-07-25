@@ -11,9 +11,15 @@ import {
 } from "~/types/conversation";
 import {TOKEN_ERROR} from "~/const/error";
 import {
-	CONVERSATION_CREATE_DRAFT, CONVERSATION_DELETE, CONVERSATION_EMPTY_TRASH,
+	CONVERSATION_CREATE_DRAFT,
+	CONVERSATION_DELETE,
+	CONVERSATION_EMPTY_TRASH,
 	CONVERSATION_FOLDER_MESSAGES,
-	CONVERSATION_FOLDERS, CONVERSATION_MESSAGE_ATTACHMENT, CONVERSATION_SEND_MESSAGE, CONVERSATION_TRASH,
+	CONVERSATION_FOLDERS,
+	CONVERSATION_MESSAGE_ADD_ATTACHMENT,
+	CONVERSATION_MESSAGE_ATTACHMENT,
+	CONVERSATION_SEND_MESSAGE,
+	CONVERSATION_TRASH,
 	CONVERSATION_UPDATE_DRAFT
 } from "~/rest/endpoints";
 
@@ -113,12 +119,26 @@ export class NeoConversation {
 	public async addAttachmentToDraft(draftId: string, file: File | Blob | ArrayBuffer, filename?: string): Promise<NeoConversationAttachmentId> {
 		this.checkToken();
 		return await this.restManager.postFile<NeoConversationAttachmentId>(
-			CONVERSATION_MESSAGE_ATTACHMENT(draftId),
+			CONVERSATION_MESSAGE_ADD_ATTACHMENT(draftId),
 			file,
 			{
 				"Authorization": `Bearer ${this.credentials.access_token}`
 			},
 			filename
+		);
+	}
+
+	public generateAttachmentUrl(messageId: string, attachmentId: string): string {
+		return `${this.restManager.getBaseURL()}/${CONVERSATION_MESSAGE_ATTACHMENT(messageId, attachmentId)}`;
+	}
+
+	public async deleteAttachmentToDraft(draftId: string, attachmentId: string): Promise<void> {
+		this.checkToken();
+		await this.restManager.delete<{}>(
+			CONVERSATION_MESSAGE_ATTACHMENT(draftId, attachmentId),
+			{
+				Authorization: `Bearer ${this.credentials.access_token}`
+			}
 		);
 	}
 

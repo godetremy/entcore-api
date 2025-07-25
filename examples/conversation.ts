@@ -96,6 +96,16 @@ void async function main () {
 	const attachment = await instance.conversation.addAttachmentToDraft(newDraft.id, blob, "upload_file.txt");
 	console.log("Attachment added successfully with ID:", attachment.id);
 
+	// Generate the download URL for the attachment
+	console.log("\nGenerating download URL for the attachment...");
+	const downloadUrl = instance.conversation.generateAttachmentUrl(newDraft.id, attachment.id);
+	console.log("Download URL:", downloadUrl);
+
+	// Delete the attachment from the draft
+	console.log("\nDeleting the attachment from the draft message...");
+	await instance.conversation.deleteAttachmentToDraft(newDraft.id, attachment.id);
+	console.log("Attachment deleted successfully.");
+
 	// Move the draft message to the trash folder
 	console.log("\nMoving the draft message to the trash folder...");
 	await instance.conversation.moveMessageToTrash(newDraft.id);

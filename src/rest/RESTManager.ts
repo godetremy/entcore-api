@@ -132,4 +132,8 @@ export class NeoRestManager {
 			return response.headers as T;
 		return JSON.parse(text) as T;
 	}
+
+	getBaseURL(): string {
+		return this.baseURL;
+	}
 }
