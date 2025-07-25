@@ -1,9 +1,10 @@
 import {NeoRestManager} from "~/rest/RESTManager";
 import {NeoAuthCredentials} from "~/types/authentication";
 import {
-	NeoConversationDraft, NeoConversationDraftId,
+	NeoConversationDraftId,
 	NeoConversationFolder,
 	NeoConversationListParameters,
+	NeoConversationMessageContent,
 	NeoConversationMessageMetadata,
 	NeoConversationSystemFolder
 } from "~/types/conversation";
@@ -49,7 +50,7 @@ export class NeoConversation {
 		);
 	}
 
-	public async createDraft(draft: NeoConversationDraft): Promise<NeoConversationDraftId> {
+	public async createDraft(draft: NeoConversationMessageContent): Promise<NeoConversationDraftId> {
 		this.checkToken();
 		return this.restManager.post<NeoConversationDraftId>(
 			CONVERSATION_CREATE_DRAFT(),
@@ -60,7 +61,7 @@ export class NeoConversation {
 		);
 	}
 
-	public async updateDraft(draftId: string, draft: NeoConversationDraft): Promise<void> {
+	public async updateDraft(draftId: string, draft: NeoConversationMessageContent): Promise<void> {
 		this.checkToken();
 		await this.restManager.put<{}>(
 			CONVERSATION_UPDATE_DRAFT(draftId),

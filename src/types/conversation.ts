@@ -130,7 +130,7 @@ interface NeoConversationListParameters {
 	searchWords?: string;
 }
 
-interface NeoConversationDraft {
+interface NeoConversationMessageContent {
 	to: string[];
 	cc?: string[];
 	cci?: string[];
@@ -156,7 +156,7 @@ export type {
 	NeoConversationUser,
 	NeoConversationVisible,
 	NeoConversationListParameters,
-	NeoConversationDraft,
+	NeoConversationMessageContent,
 	NeoConversationDraftId
 }
 export {
