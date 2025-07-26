@@ -23,5 +23,9 @@ void async function main () {
 	const userInfo = await instance.auth.getUserInfo();
 	console.log("User Info:", userInfo);
 
+	// Request a temporary login URL
+	const logged = await instance.auth.getTemporaryLoginURL();
+	console.log("Temporary Logged URL:", logged);
+
 	process.exit(0);
 }();

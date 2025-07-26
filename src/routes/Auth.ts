@@ -1,6 +1,6 @@
 import {NeoRestManager} from "~/rest/RESTManager";
-import {NeoAuthCredentials, NeoScope} from "~/types/authentication";
-import {AUTH_TOKEN, AUTH_USERINFO} from "~/rest/endpoints";
+import {NeoAuthCredentials, NeoAuthToken, NeoScope} from "~/types/authentication";
+import {AUTH_TOKEN, AUTH_USERINFO, AUTH_WELCOME} from "~/rest/endpoints";
 import {CLIENT} from "~/const/client";
 import {TOKEN_ERROR} from "~/const/error";
 import {NeoCoreSession} from "~/types/core";
@@ -59,5 +59,21 @@ export class NeoAuth {
                 Authorization: `Bearer ${this.credentials.access_token}`,
             }
         );
+    }
+
+    public async requestQueryParamToken(): Promise<NeoAuthToken> {
+        this.checkToken();
+        return await this.restManager.get<NeoAuthToken>(
+            AUTH_TOKEN() + "?type=queryparam",
+            {
+                Authorization: `Bearer ${this.credentials.access_token}`,
+            }
+        );
+    }
+
+    public async getTemporaryLoginURL(): Promise<string> {
+        this.checkToken();
+        const token = await this.requestQueryParamToken();
+        return `${this.restManager.getBaseURL()}${AUTH_WELCOME(token.access_token)}`;
     }
 }

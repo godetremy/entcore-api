@@ -46,5 +46,14 @@ interface NeoAuthCredentials {
 	scope: Array<NeoScope>;
 }
 
-export type { NeoAuthCredentials };
+interface NeoAuthToken {
+	/** Type of the token, usually "Bearer" */
+	token_type: string;
+	/** Bearer token */
+	access_token: string;
+	/** Second until the access token expires */
+	expires_in: number;
+}
+
+export type { NeoAuthCredentials, NeoAuthToken };
 export { NeoScope };
