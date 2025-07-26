@@ -26,4 +26,7 @@ export const CONVERSATION_MESSAGE = (messageId: string) => `${CONVERSATION_BASE_
 export const CONVERSATION_TOGGLE_UNREAD = () => `${CONVERSATION_BASE_URL()}/toggleUnread`;
 export const CONVERSATION_VISIBLE = () => `${CONVERSATION_BASE_URL()}/visible`;
 
+export const MEDIACENTRE_BASE_URL = () => "mediacentre";
+export const MEDIACENTRE_SEARCH = (jsondata: string) => `${MEDIACENTRE_BASE_URL()}/search?jsondata=${encodeURIComponent(jsondata)}`;
+
 export const CAS_OAUTH_LOGIN = (service: string) => `cas/oauth/login?service=${encodeURIComponent(service)}`;
