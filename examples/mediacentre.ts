@@ -31,7 +31,7 @@ void async function main () {
 	sources.forEach((source) => {
 		console.log(`===== ${source.source} =====`);
 		source.resources.forEach((resource) => {
-			console.log(`- ${resource.title} (${resource.id})`);
+			console.log(`- ${resource.title} (${resource.link})`);
 		});
 	});
 
