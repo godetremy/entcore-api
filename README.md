@@ -8,6 +8,10 @@
   <a href="https://www.npmjs.com/package/entcore-api"><img src="https://img.shields.io/npm/dt/entcore-api"/></a>
 </p>
 
+
+> [!warning]
+> Ce projet n'est pas lié au service Neo / One ou à l'entreprise Édifice de quelques manières qu'il soit.
+
 ## 📝 Description
 `entcore-api` est un module TypeScript permettant d'interagir avec les modules exposés par une instance ENT basée sur ENTCore.  
 
