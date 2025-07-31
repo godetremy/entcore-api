@@ -1,6 +1,6 @@
 import {NeoRestManager} from "~/rest/RESTManager";
 import {CAS_OAUTH_LOGIN, SSO_PRONOTE} from "~/rest/endpoints";
-import {NeoAuthCredentials} from "~/types/authentication";
+import {NeoAuthCredentials} from "~/types/auth";
 import {TOKEN_ERROR} from "~/const/error";
 
 export class NeoSSO {

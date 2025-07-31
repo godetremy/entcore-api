@@ -1,5 +1,5 @@
 import {NeoRestManager} from "~/rest/RESTManager";
-import {NeoAuthCredentials} from "~/types/authentication";
+import {NeoAuthCredentials} from "~/types/auth";
 import {NeoAuth} from "~/routes/Auth";
 import {NeoConversation} from "~/routes/Conversation";
 import {NeoSSO} from "~/routes/SSO";

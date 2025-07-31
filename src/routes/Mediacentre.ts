@@ -1,5 +1,5 @@
 import {NeoRestManager} from "~/rest/RESTManager";
-import {NeoAuthCredentials} from "~/types/authentication";
+import {NeoAuthCredentials} from "~/types/auth";
 import {TOKEN_ERROR} from "~/const/error";
 import {NeoMediacentreResourceSearch, NeoMediacentreResponse, NeoMediacentreSource} from "~/types/mediacentre";
 import {MEDIACENTRE_SEARCH} from "~/rest/endpoints";

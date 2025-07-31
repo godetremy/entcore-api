@@ -1,9 +1,8 @@
 import {NeoRestManager} from "~/rest/RESTManager";
-import {NeoAuthCredentials, NeoAuthToken, NeoScope} from "~/types/authentication";
+import {NeoAuthCredentials, NeoAuthToken, NeoAuthScope, NeoAuthSession} from "~/types/auth";
 import {AUTH_TOKEN, AUTH_USERINFO, AUTH_WELCOME} from "~/rest/endpoints";
 import {CLIENT} from "~/const/client";
 import {TOKEN_ERROR} from "~/const/error";
-import {NeoCoreSession} from "~/types/core";
 
 export class NeoAuth {
     private restManager: NeoRestManager;
@@ -26,7 +25,7 @@ export class NeoAuth {
                 ...CLIENT,
                 assertion,
                 grant_type: "saml2",
-                scope: Object.values(NeoScope).join(" "),
+                scope: Object.values(NeoAuthScope).join(" "),
             }
         );
         Object.assign(this.credentials, token);
@@ -44,16 +43,16 @@ export class NeoAuth {
                 ...CLIENT,
                 refresh_token,
                 grant_type: "refresh_token",
-                scope: Object.values(NeoScope).join(" "),
+                scope: Object.values(NeoAuthScope).join(" "),
             }
         );
         Object.assign(this.credentials, token);
         return token;
     }
 
-    public async getUserInfo(): Promise<NeoCoreSession> {
+    public async getUserInfo(): Promise<NeoAuthSession> {
         this.checkToken();
-        return await this.restManager.get<NeoCoreSession>(
+        return await this.restManager.get<NeoAuthSession>(
             AUTH_USERINFO(),
             {
                 Authorization: `Bearer ${this.credentials.access_token}`,

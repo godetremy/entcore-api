@@ -1,5 +1,5 @@
 import {NeoRestManager} from "~/rest/RESTManager";
-import {NeoAuthCredentials} from "~/types/authentication";
+import {NeoAuthCredentials} from "~/types/auth";
 import { USERBOOK_AVATAR } from "~/rest/endpoints";
 import {TOKEN_ERROR} from "~/const/error";
 export class NeoUserbook {

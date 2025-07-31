@@ -1,2 +1,2 @@
 export * from "./structures/Client";
-export { NeoPublicInstanceURLs } from "./const/instances";
+export { NeoPublicInstances } from "./const/instances";

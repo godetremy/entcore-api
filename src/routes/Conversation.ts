@@ -1,5 +1,5 @@
 import {NeoRestManager} from "~/rest/RESTManager";
-import {NeoAuthCredentials} from "~/types/authentication";
+import {NeoAuthCredentials} from "~/types/auth";
 import {
 	NeoConversationAttachmentId, NeoConversationAvailableRecipient,
 	NeoConversationDraftId,
