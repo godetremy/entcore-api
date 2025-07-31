@@ -137,4 +137,11 @@ export class NeoRestManager {
 	getBaseURL(): string {
 		return this.instance.url;
 	}
+
+	getOauthHeader(): Record<string, string> {
+		return {
+			client_id: this.instance.oauth_client_id,
+			client_secret: this.instance.oauth_client_secret,
+		}
+	}
 }

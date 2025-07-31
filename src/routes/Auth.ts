@@ -18,11 +18,26 @@ export class NeoAuth {
             throw TOKEN_ERROR;
     }
 
+    public async loginUsername(username: string, password: string): Promise<NeoAuthCredentials> {
+        const token = await this.restManager.post<NeoAuthCredentials>(
+            AUTH_TOKEN(),
+            {
+                ...this.restManager.getOauthHeader(),
+                username,
+                password,
+                grant_type: "password",
+                scope: Object.values(NeoAuthScope).join(" "),
+            }
+        );
+        Object.assign(this.credentials, token);
+        return token;
+    }
+
     public async loginSAML(assertion: string): Promise<NeoAuthCredentials> {
         const token = await this.restManager.post<NeoAuthCredentials>(
             AUTH_TOKEN(),
             {
-                ...CLIENT,
+                ...this.restManager.getOauthHeader(),
                 assertion,
                 grant_type: "saml2",
                 scope: Object.values(NeoAuthScope).join(" "),
