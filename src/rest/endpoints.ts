@@ -30,4 +30,7 @@ export const CONVERSATION_VISIBLE = () => `${CONVERSATION_BASE_URL()}/visible`;
 export const MEDIACENTRE_BASE_URL = () => "mediacentre";
 export const MEDIACENTRE_SEARCH = (jsondata: string) => `${MEDIACENTRE_BASE_URL()}/search?jsondata=${encodeURIComponent(jsondata)}`;
 
+export const USERBOOK_BASE_URL = () => "userbook";
+export const USERBOOK_AVATAR = (userId: string) => `${USERBOOK_BASE_URL()}/avatar/${userId}`;
+
 export const CAS_OAUTH_LOGIN = (service: string) => `cas/oauth/login?service=${encodeURIComponent(service)}`;
