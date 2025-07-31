@@ -20,7 +20,6 @@
     "example:saml": "bun run examples/login_saml.ts",
     "example:refresh": "bun run examples/login_refresh.ts",
     "example:sso_pronote": "bun run examples/pronote_sso.ts",
-    "example:inbox": "bun run examples/list_inbox.ts",
     "example:conversation": "bun run examples/conversation.ts",
     "example:mediacentre": "bun run examples/mediacentre.ts",
     "test": "echo \"Error: no test specified\" && exit 1"

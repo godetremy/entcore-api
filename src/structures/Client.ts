@@ -4,6 +4,7 @@ import {NeoAuth} from "~/routes/Auth";
 import {NeoConversation} from "~/routes/Conversation";
 import {NeoSSO} from "~/routes/SSO";
 import {NeoMediacentre} from "~/routes/Mediacentre";
+import {NeoInstance} from "~/types/instance";
 
 export class NeoClient {
 	private restManager: NeoRestManager;
@@ -17,10 +18,10 @@ export class NeoClient {
 	public mediacentre: NeoMediacentre;
 	public sso: NeoSSO;
 
-	constructor(baseURL: string, credentials?: NeoAuthCredentials) {
+	constructor(instance: NeoInstance, credentials?: NeoAuthCredentials) {
 		if (credentials)
 			this.credentials = credentials;
-		this.restManager = new NeoRestManager(baseURL);
+		this.restManager = new NeoRestManager(instance);
 
 		this.auth = new NeoAuth(this.restManager, this.credentials);
 		this.conversation = new NeoConversation(this.restManager, this.credentials);
