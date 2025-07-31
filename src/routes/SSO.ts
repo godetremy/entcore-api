@@ -2,6 +2,7 @@ import {NeoRestManager} from "~/rest/RESTManager";
 import {CAS_OAUTH_LOGIN, SSO_PRONOTE} from "~/rest/endpoints";
 import {NeoAuthCredentials} from "~/types/auth";
 import {TOKEN_ERROR} from "~/const/error";
+import {NeoSSOPronote} from "~/types/sso";
 
 export class NeoSSO {
 	private restManager: NeoRestManager;
@@ -17,9 +18,9 @@ export class NeoSSO {
 			throw TOKEN_ERROR;
 	}
 
-	public async getPronoteInstanceLinked(): Promise<Array<NeoPronoteSSO>> {
+	public async getPronoteInstanceLinked(): Promise<Array<NeoSSOPronote>> {
 		this.checkToken();
-		return await this.restManager.get<Array<NeoPronoteSSO>>(
+		return await this.restManager.get<Array<NeoSSOPronote>>(
 			SSO_PRONOTE(),
 			{
 				"Authorization": `Bearer ${this.credentials.access_token}`
@@ -27,7 +28,7 @@ export class NeoSSO {
 		)
 	}
 
-	public async generatePronoteAuthorizedUrl(sso: NeoPronoteSSO): Promise<URL> {
+	public async generatePronoteAuthorizedUrl(sso: NeoSSOPronote): Promise<URL> {
 		this.checkToken();
 
 		let pronote_endpoint = "";
