@@ -3,18 +3,17 @@ import {NeoClient} from "~/structures/Client";
 import * as process from "node:process";
 import {NeoConversationSystemFolder} from "../src/types/conversation";
 import {readFile} from "node:fs/promises";
+import {NeoPublicInstances} from "../src/const/instances";
 
 void async function main () {
 	// Load environment variables from .env file
 	dotenv.config({quiet: true});
 
 	// Validate required environment variables
-	if (!process.env.NEO_URL)
-		throw new Error("NEO_URL environment variable is not set.");
 	if (!process.env.NEO_REFRESH_TOKEN)
 		throw new Error("NEO_REFRESH_TOKEN environment variable is not set.");
 
-	const instance = new NeoClient(process.env.NEO_URL);
+	const instance = new NeoClient(NeoPublicInstances.MonEnt16);
 
 	// Perform Login
 	console.log("Logging in with refresh token...");

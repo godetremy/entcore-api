@@ -1,6 +1,7 @@
 import * as dotenv from "dotenv";
 import {NeoClient} from "~/structures/Client";
 import * as process from "node:process";
+import {NeoPublicInstances} from "../src/const/instances";
 
 void async function main () {
 	// Load environment variables from .env file
@@ -13,12 +14,10 @@ void async function main () {
 	}
 
 	// Validate required environment variables
-	if (!process.env.NEO_URL)
-		throw new Error("NEO_URL environment variable is not set.");
 	if (!process.env.NEO_SAML_ASSERTION)
 		throw new Error("NEO_SAML_ASSERTION environment variable is not set.");
 
-	const instance = new NeoClient(process.env.NEO_URL);
+	const instance = new NeoClient(NeoPublicInstances.MonEnt16);
 
 	// Perform SAML login using the provided assertion
 	const token = await instance.auth.loginSAML(process.env.NEO_SAML_ASSERTION);

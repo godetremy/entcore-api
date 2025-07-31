@@ -1,6 +1,7 @@
 /** @module RESTManager */
 import { RequestOptions } from "~/types/request-handler";
 import { MOBILE_HEADERS} from "~/const/headers";
+import {NeoInstance} from "~/types/instance";
 
 type QueuedRequest<T> = {
 	options: RequestOptions;
@@ -9,14 +10,14 @@ type QueuedRequest<T> = {
 };
 
 export class NeoRestManager {
-	private readonly baseURL: string;
+	private readonly instance: NeoInstance;
 	private queue: QueuedRequest<any>[] = [];
 	private requestsSent = 0;
 	private readonly MAX_REQUESTS_PER_MINUTE = 100;
 	private readonly INTERVAL_MS = 60000;
 
-	constructor(baseURL: string) {
-		this.baseURL = baseURL;
+	constructor(instance: NeoInstance) {
+		this.instance = instance;
 		setInterval(() => {
 			this.requestsSent = 0;
 			this.processQueue();
@@ -25,7 +26,7 @@ export class NeoRestManager {
 
 	private async sendRequest<T>(options: RequestOptions): Promise<T> {
 		const { method, path, body, headers } = options;
-		const url = `${this.baseURL}/${path}`;
+		const url = `${this.instance.url}/${path}`;
 
 		const response = await fetch(url, {
 			method,
@@ -100,7 +101,7 @@ export class NeoRestManager {
 	}
 
 	async postFile<T>(path: string, file: File | Blob | ArrayBuffer, headers?: Record<string, string>, filename?: string): Promise<T> {
-		const url = `${this.baseURL}/${path}`;
+		const url = `${this.instance.url}/${path}`;
 
 		if (file instanceof ArrayBuffer) {
 			file = new Blob([file]);
@@ -134,6 +135,6 @@ export class NeoRestManager {
 	}
 
 	getBaseURL(): string {
-		return this.baseURL;
+		return this.instance.url;
 	}
 }
